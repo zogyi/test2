@@ -19,12 +19,15 @@ const (
 	operationName = `last_projects`
 )
 
+//IProjectRepository the repository interface for the project
 type IProjectRepository interface {
 	GetLatestNProjects(ctx context.Context, count uint) (responseObj models.ProjectResponse, err error)
 }
 
+//ProjectRepository the repository implement for the project
 type ProjectRepository struct{}
 
+//GetLatestNProjects get latest N's projects
 func (repository *ProjectRepository) GetLatestNProjects(ctx context.Context, count uint) (responseObj models.ProjectResponse, err error) {
 	type queryObj struct {
 		Query         string      `json:"query"`

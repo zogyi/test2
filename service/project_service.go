@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+//IProjectService the service interface for the project
 type IProjectService interface {
 	GetLastNProjectsFolks(ctx context.Context, count uint) (string, uint, error)
 }
@@ -20,12 +21,14 @@ func NewIProjectService(repository repository.IProjectRepository, logger log.Log
 	}
 }
 
+//projectService the service implement for the project
 type projectService struct {
 	logger log.Logger
 	repository.IProjectRepository
 }
 
-func (service *projectService) GetLastNProjectsFolks(ctx context.Context, count uint) (names string, totalCount uint, err error) {
+//GetLastNProjectsFolks get latest N's projects name and folks count
+func (service *projectService) GetLastNProjectsFolks(ctx context.Context, count uint) (projects string, folksCount uint, err error) {
 	var (
 		responseObj models.ProjectResponse
 		nameArray   []string
@@ -35,9 +38,9 @@ func (service *projectService) GetLastNProjectsFolks(ctx context.Context, count 
 		return
 	}
 	for _, node := range responseObj.Data.Projects.Nodes {
-		totalCount = totalCount + node.ForksCount
+		folksCount = folksCount + node.ForksCount
 		nameArray = append(nameArray, node.Name)
 	}
 	level.Info(service.logger).Log(`message`, `can't get the service`)
-	return strings.Join(nameArray, `,`), totalCount, nil
+	return strings.Join(nameArray, `,`), folksCount, nil
 }

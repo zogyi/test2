@@ -18,8 +18,8 @@ func main() {
 	}
 
 	projectService := service.NewIProjectService(&repository.ProjectRepository{}, logger)
-	projectNames, totalCount, err := projectService.GetLastNProjectsFolks(context.Background(), 10)
+	projectNames, folksCount, err := projectService.GetLastNProjectsFolks(context.Background(), 10)
 	fmt.Println(projectNames)
-	fmt.Println(totalCount)
+	fmt.Println(folksCount)
 	fmt.Println(err)
 }
